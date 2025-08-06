@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Tez Tayping</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Tez Tayping</h1>
+        <p id="text-to-type">Bu yerga foydalanuvchi yozishi kerak bo'lgan matn chiqadi.</p>
+        <textarea id="input-area" placeholder="Matnni shu yerga yozing..."></textarea>
+        <div class="stats">
+            <p>Vaqt: <span id="timer">0</span> soniya</p>
+            <p>Xatoliklar: <span id="mistakes">0</span></p>
+        </div>
+        <button onclick="restartGame()">Qayta boshlash</button>
+    </div>
+
+    <script>
+        const textToType = "Bu yerga foydalanuvchi yozishi kerak bo'lgan matn chiqadi.";
+        const inputArea = document.getElementById("input-area");
+        const timerElement = document.getElementById("timer");
+        const mistakesElement = document.getElementById("mistakes");
+        let time = 0;
+        let mistakes = 0;
+        let timerStarted = false;
+        let timer;
+
+        inputArea.addEventListener("input", () => {
+            if (!timerStarted) {
+                timerStarted = true;
+                timer = setInterval(() => {
+                    time++;
+                    timerElement.textContent = time;
+                }, 1000);
+            }
+
+            const typedText = inputArea.value;
+            mistakes = 0;
+
+            for (let i = 0; i < typedText.length; i++) {
+                if (typedText[i] !== textToType[i]) {
+                    mistakes++;
+                }
+            }
+
+            mistakesElement.textContent = mistakes;
+
+            if (typedText === textToType) {
+                clearInterval(timer);
+                alert("Yaxshi ish! Siz tugatdingiz.");
+            }
+        });
+
+        function restartGame() {
+            inputArea.value = "";
+            time = 0;
+            mistakes = 0;
+            timerStarted = false;
+            clearInterval(timer);
+            timerElement.textContent = 0;
+            mistakesElement.textContent = 0;
+        }
+    </script>
+</body>
+</html>
